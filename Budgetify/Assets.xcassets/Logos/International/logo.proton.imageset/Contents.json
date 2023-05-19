@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "proton-vpn-logo-A50452564D-seeklogo.com@1x.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "proton-vpn-logo-A50452564D-seeklogo.com@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "proton-vpn-logo-A50452564D-seeklogo.com@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

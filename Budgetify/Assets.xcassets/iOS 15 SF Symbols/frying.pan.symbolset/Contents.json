@@ -1,0 +1,12 @@
+{
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "symbols" : [
+    {
+      "filename" : "frying.pan.svg",
+      "idiom" : "universal"
+    }
+  ]
+}

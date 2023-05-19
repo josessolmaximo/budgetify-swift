@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>developer_website_link</key>
+	<string>https://josessolmaximo.dev</string>
+	<key>privacy_policy_link</key>
+	<string>https://doc-hosting.flycricket.io/budgetify-privacy-policy/cd4254ce-0032-484b-a532-b1deca76852e/privacy</string>
+	<key>terms_of_use_link</key>
+	<string>https://www.apple.com/legal/internet-services/itunes/dev/stdeula/</string>
+	<key>paywall_limits</key>
+	<string>{&quot;transactions&quot;:20,&quot;wallets&quot;:5,&quot;budgets&quot;:1,&quot;subcategories&quot;:3}</string>
+	<key>minimum_version</key>
+	<string>1.0.0</string>
+	<key>contact_email</key>
+	<string>contact.budgetify@gmail.com</string>
+	<key>onboarding</key>
+	<string>{&quot;showOnboarding&quot;:true,&quot;requestRating&quot;:true,&quot;showPaywall&quot;:true}</string>
+	<key>transaction_rating_limit</key>
+	<string>20</string>
+</dict>
+</plist>
