@@ -76,6 +76,12 @@ struct SettingsView: View {
                                     toggle: $sm.hideEmptyWallets
                                 )
                                 
+                                toggleRow(
+                                    title: "Show Subcategories On Report By Default",
+                                    image: "square.grid.2x2",
+                                    toggle: $sm.showReportSubcategoriesAS
+                                )
+                                
                                 stepperRow(
                                     title: "Decimal Points",
                                     image: "centsign",

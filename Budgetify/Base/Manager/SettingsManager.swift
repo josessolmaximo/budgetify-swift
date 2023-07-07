@@ -14,11 +14,13 @@ class SettingsManager: ObservableObject {
     @AppStorage("lineGraphStyle", store: .grouped) var lineGraphStyleAS: String = "Straight"
     @AppStorage("decimalPoints", store: .grouped) var decimalPointsAS: Int = 2
     @AppStorage("hideEmptyWallets", store: .grouped) var hideEmptyWalletsAS: Bool = false
+    @AppStorage("showReportSubcategories", store: .grouped) var showReportSubcategoriesAS: Bool = true
 
     @Published var amountsVisible = true
     @Published var recurringBadge = true
     @Published var currencySymbols = true
     @Published var hideEmptyWallets = false
+    @Published var showReportSubcategories = true
     
     @Published var lineGraphStyle: LineGraphStyle = .straight
     
@@ -35,6 +37,7 @@ class SettingsManager: ObservableObject {
         recurringBadge = recurringBadgeAS
         currencySymbols = currencySymbolsAS
         hideEmptyWallets = hideEmptyWalletsAS
+        showReportSubcategories = showReportSubcategoriesAS
         
         lineGraphStyle = LineGraphStyle(rawValue: lineGraphStyleAS) ?? .straight
         
@@ -46,6 +49,7 @@ class SettingsManager: ObservableObject {
         recurringBadgeAS = recurringBadge
         currencySymbolsAS = currencySymbols
         hideEmptyWalletsAS = hideEmptyWallets
+        showReportSubcategoriesAS = showReportSubcategories
         
         lineGraphStyleAS = lineGraphStyle.rawValue
         

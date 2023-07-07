@@ -567,7 +567,7 @@
 		D4FDD12B28E85E0400F10DAD /* Budgetify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Budgetify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4FDD12E28E85E0400F10DAD /* BudgetifyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetifyApp.swift; sourceTree = "<group>"; };
 		D4FDD13028E85E0400F10DAD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		D4FDD13228E85E0500F10DAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "/Users/josessolmaximo/Coding/Projects/Budgetify/budgetify-swift/Budgetify/Assets.xcassets"; sourceTree = "<absolute>"; };
+		D4FDD13228E85E0500F10DAD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "/Users/josessolmaximo/Personal/Budgetify/budgetify-swift/Budgetify/Assets.xcassets"; sourceTree = "<absolute>"; };
 		D4FDD13528E85E0500F10DAD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D4FDD13C28E85EEB00F10DAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4FDD13D28E87AE100F10DAD /* Budgetify.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Budgetify.entitlements; sourceTree = "<group>"; };

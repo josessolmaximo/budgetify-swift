@@ -11,6 +11,8 @@ import SwiftUI
 
 @MainActor
 class ReportViewModel: ObservableObject {
+    @AppStorage("showReportSubcategories", store: .grouped) var showReportSubcategories: Bool = true
+    
     @Published var period: InsightPeriod = .monthly
     
     @Published var chartData: [Double] = []
@@ -201,6 +203,19 @@ class ReportViewModel: ObservableObject {
         
         transactionData = monthlyData
         
+        var categorizedData: OrderedDictionary<String, Double> = [:]
+        
+        for (subcategory, value) in categoryData {
+            if let categoryHeader = categories.first(where: { $0.id.uuidString == subcategory })?.categoryHeader,
+               let categoryId = categories.first(where: { $0.categoryHeader == categoryHeader})?.id.uuidString {
+                categorizedData[categoryId, default: 0] += value
+            }
+        }
+        
+        categorizedData.sort {
+            $0.value > $1.value
+        }
+        
 //        var convertedCategoryData: OrderedDictionary<Category, Double> = [:]
 //
 //        for (key, value) in categoryData {
@@ -211,7 +226,12 @@ class ReportViewModel: ObservableObject {
 //            }
 //        }
         
-        self.categoryData = categoryData
+        if showReportSubcategories {
+            self.categoryData = categoryData
+        } else {
+            self.categoryData = categorizedData
+        }
+        
         self.timeData = timeData
     }
 }

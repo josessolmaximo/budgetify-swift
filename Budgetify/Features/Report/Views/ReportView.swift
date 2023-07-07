@@ -125,6 +125,11 @@ extension ReportView {
     var timeView: some View {
         VStack(spacing: 5) {
             HStack {
+                CustomIconView(imageName: "clock", dimensions: 15)
+                
+                Spacer()
+                    .frame(width: 10)
+                
                 Text("Time Period")
                     .font(.subheadline.weight(.medium))
                 
@@ -310,12 +315,25 @@ extension ReportView {
     
     var categoryView: some View {
         HStack {
-            
-            
             VStack(spacing: 5) {
                 HStack {
-                    Text("Categories")
-                        .font(.subheadline.weight(.medium))
+                    Button {
+                        vm.showReportSubcategories.toggle()
+                        
+                        vm.configureChart(transactionVM: transactionVM, categories: categoryVM.allCategories)
+                    } label: {
+                        HStack {
+                            CustomIconView(imageName: "square.grid.2x2", dimensions: 15)
+                            
+                            Spacer()
+                                .frame(width: 10)
+                            
+                            Text(vm.showReportSubcategories ? "Subcategories" : "Categories")
+                                .font(.subheadline.weight(.medium))
+                                
+                        }
+                    }
+                    .foregroundColor(tm.selectedTheme.primaryLabel)
                     
                     Spacer()
                     
@@ -327,7 +345,6 @@ extension ReportView {
                                 .font(.subheadline.weight(.regular))
                         })
                     }
-                    
                 }
                 .unredacted()
                 
@@ -346,7 +363,7 @@ extension ReportView {
                             .foregroundColor(category?.color.stringToColor() ?? tm.selectedTheme.secondaryLabel)
                             .padding(.horizontal, 2.5)
                         
-                        Text(category?.name ?? "Unknown")
+                        Text(vm.showReportSubcategories ? category?.name ?? "Unknown" : category?.categoryHeader ?? "Unknown")
                             .fontWeight(.medium)
                             .lineLimit(1)
                             .minimumScaleFactor(0.5)
