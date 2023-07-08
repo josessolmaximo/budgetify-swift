@@ -57,6 +57,7 @@ struct ContentView: View {
             await walletVM.getWallets()
             await budgetVM.getBudgets()
             await categoryVM.getCategories()
+            await categoryVM.getCategoryOrder()
             await recurringVM.getTransactions()
             await sharingVM.getData()
             await shortcutVM.getShortcuts()

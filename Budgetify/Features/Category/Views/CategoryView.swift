@@ -15,32 +15,42 @@ struct CategoryView: View {
     @EnvironmentObject var vm: CategoryViewModel
     @EnvironmentObject var tm: ThemeManager
     
+    @State var draggedItem: String?
+    
     var body: some View {
         ZStack {
             tm.selectedTheme.backgroundColor
                 .ignoresSafeArea()
             
             ScrollView {
-                ForEach(vm.categories.keys) { section in
-                    HStack {
-                        Text(section.uppercased())
-                            .font(.subheadline)
-                            .fontWeight(.semibold)
+                ForEach(vm.categoryOrder) { section in
+                    VStack(spacing: 15) {
+                        HStack {
+                            Text(section.uppercased())
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                            
+                            Spacer()
+                        }
                         
-                        Spacer()
-                    }
-                    
-                    VStack {
-                        ForEach(Array(stride(from: 0, to: (vm.categories[section]?.count ?? 0), by: 4)), id: \.self) { index in
-                            HStack {
-                                categoryCell(categories: vm.categories[section] ?? [], index: index)
-                                categoryCell(categories: vm.categories[section] ?? [], index: index + 1)
-                                categoryCell(categories: vm.categories[section] ?? [], index: index + 2)
-                                categoryCell(categories: vm.categories[section] ?? [], index: index + 3)
+                        VStack {
+                            ForEach(Array(stride(from: 0, to: (vm.categories[section]?.count ?? 0), by: 4)), id: \.self) { index in
+                                HStack {
+                                    categoryCell(categories: vm.categories[section] ?? [], index: index)
+                                    categoryCell(categories: vm.categories[section] ?? [], index: index + 1)
+                                    categoryCell(categories: vm.categories[section] ?? [], index: index + 2)
+                                    categoryCell(categories: vm.categories[section] ?? [], index: index + 3)
+                                }
                             }
                         }
+                        .padding(.vertical, 10)
                     }
-                    .padding(.vertical, 10)
+                    .background(tm.selectedTheme.backgroundColor)
+                    .onDrag({
+                        self.draggedItem = section
+                        return NSItemProvider(item: nil, typeIdentifier: section)
+                    })
+                    .onDrop(of: [UTType.text], delegate: CategoryDropDelegate(item: section, items: $vm.categoryOrder, draggedItem: $draggedItem))
                 }
                 .padding(.top, 10)
                 .padding(.horizontal)
@@ -65,10 +75,16 @@ struct CategoryView: View {
             .refreshable {
                 Task {
                     await vm.getCategories()
+                    await vm.getCategoryOrder()
                 }
             }
         }
         .analyticsScreen(name: self.pageTitle, class: self.pageTitle)
+        .onDisappear {
+            Task {
+                await vm.getCategoryOrder()
+            }
+        }
     }
 }
 

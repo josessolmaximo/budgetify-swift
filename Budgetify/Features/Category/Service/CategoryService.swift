@@ -15,6 +15,9 @@ protocol CategoryServiceProtocol {
     func createCategory(category: Category) async throws
     func deleteCategory(category: Category) async throws
     func updateCategories(categories: [Category]) async throws
+    
+    func getCategoryOrder() async throws -> [String]
+    func updateCategoryOrder(order: [String]) async throws
 }
 
 class CategoryService: CategoryServiceProtocol {
@@ -24,9 +27,33 @@ class CategoryService: CategoryServiceProtocol {
         return Firestore.firestore().collection("users").document(userId).collection("categories")
     }
     
-//    init(userId: String) {
-//        self.dbRef
-//    }
+    var userRef: DocumentReference {
+        return Firestore.firestore().collection("users").document(userId)
+    }
+    
+    func getCategoryOrder() async throws -> [String] {
+        do {
+            let snapshot = try await userRef.getDocument()
+            
+            if let categoryOrder = snapshot.data()?["categoryOrder"] as? [String] {
+                return categoryOrder
+            } else {
+                return []
+            }
+        } catch {
+            throw error.firestoreError
+        }
+    }
+    
+    func updateCategoryOrder(order: [String]) async throws {
+        do {
+            try await userRef.updateData([
+                "categoryOrder": order
+            ])
+        } catch {
+            throw error.firestoreError
+        }
+    }
     
     func getCategories() async throws -> OrderedDictionary<String, [Category]> {
         do {
@@ -109,6 +136,14 @@ class MockCategoryService: CategoryServiceProtocol {
     }
     
     func updateCategories(categories: [Category]) async throws {
+        
+    }
+    
+    func getCategoryOrder() async throws -> [String] {
+        return []
+    }
+    
+    func updateCategoryOrder(order: [String]) async throws {
         
     }
 }

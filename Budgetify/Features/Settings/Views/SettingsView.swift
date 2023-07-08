@@ -93,8 +93,16 @@ struct SettingsView: View {
                                     title: "Line Chart",
                                     image: "chart.xyaxis.line",
                                     selection: $sm.lineGraphStyle,
-                                    selected: sm.lineGraphStyle.rawValue,
+                                    selected: sm.lineGraphStyle,
                                     data: LineGraphStyle.allCases
+                                )
+                                
+                                menuRow(
+                                    title: "Start of Week",
+                                    image: "calendar",
+                                    selection: $sm.startOfWeek,
+                                    selected: sm.startOfWeek,
+                                    data: Weekday.allCases
                                 )
                                 
                                 Spacer()
@@ -243,6 +251,7 @@ struct SettingsView: View {
                             await accountVM.eraseData {
                                 Task {
                                     await categoryVM.getCategories()
+                                    await categoryVM.getCategoryOrder()
                                     await walletVM.getWallets()
                                     await transactionVM.getTransactions(wallets: walletVM.wallets, categories: categoryVM.allCategories)
                                     await budgetVM.getBudgets()
@@ -299,7 +308,7 @@ extension SettingsView {
         .padding(.horizontal, 5)
     }
     
-    func menuRow<T: Hashable & RawRepresentable>(title: String, image: String, selection: Binding<T>, selected: String, data: [T]) -> some View {
+    func menuRow<T: Hashable & RawRepresentable & HasDisplayString>(title: String, image: String, selection: Binding<T>, selected: T, data: [T]) -> some View {
         HStack {
             CustomIconView(imageName: image, dimensions: 20)
                 .padding(5)
@@ -316,12 +325,12 @@ extension SettingsView {
             Menu {
                 Picker("", selection: selection) {
                     ForEach(data, id: \.self) { option in
-                        Text("\(option.rawValue as? String ?? "")")
+                        Text(option.displayString)
                             .tag(option)
                     }
                 }
             } label: {
-                Text(selected)
+                Text(selected.displayString)
                     .font(.system(size: 15))
                     .fontWeight(.medium)
                     .foregroundColor(tm.selectedTheme.primaryLabel)

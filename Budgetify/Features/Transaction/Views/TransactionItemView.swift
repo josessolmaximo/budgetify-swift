@@ -93,16 +93,7 @@ struct TransactionItemView: View {
                     .font(.system(size: 44))
                 
                 ExpressionTextView(text: $amountExpression, amount: $transaction.amount)
-//                TextField("0", text: $amountExpression)
                     .foregroundColor(tm.selectedTheme.primaryLabel)
-//                    .font(.system(size: 44, weight: .semibold))
-//                    .keyboardType(.decimalPad)
-//                    .focused($focusedField, equals: .amount)
-//                    .onAppear {
-//                        if let amount = transaction.amount {
-//                            amountExpression = "\(amount)"
-//                        }
-//                    }
             }
             .padding(.vertical)
             
@@ -587,15 +578,22 @@ extension TransactionItemView {
                 return item.value.filter({$0.type == transaction.type}).count > 0
             }
             
+            let sortedCategories = validCategories.sorted(by: { category1, category2 in
+                categoryVM.categoryOrder.firstIndex(of: category1.key) ??
+                categoryVM.categoryOrder.count < categoryVM.categoryOrder.firstIndex(of: category2.key) ??
+                categoryVM.categoryOrder.count
+            })
+            
             Menu {
-                ForEach(validCategories.elements, id: \.key){ header, categories in
+                ForEach(sortedCategories, id: \.key){ header, categories in
                     let validCategory = categories.filter({ !$0.isHidden && $0.type == transaction.type })
+                    
                     Menu {
                         Picker("", selection: $transaction.category) {
                             ForEach(validCategory){ category in
                                 HStack {
                                     Text(category.name)
-//                                    Text("A")
+                                    
                                     CustomIconView(imageName: category.image, dimensions: 20)
                                 }
                                 .tag(category.id.uuidString)

@@ -22,6 +22,8 @@ class CategoryViewModel: ObservableObject, SubcategorySheetProtocol {
     
     @Published var loading = false
     
+    @Published var categoryOrder: [String] = []
+    
     let categoryService: CategoryServiceProtocol
     
     init(categoryService: CategoryServiceProtocol){
@@ -31,6 +33,7 @@ class CategoryViewModel: ObservableObject, SubcategorySheetProtocol {
         
         Task {
             await getCategories()
+            await getCategoryOrder()
         }
     }
     
@@ -42,9 +45,31 @@ class CategoryViewModel: ObservableObject, SubcategorySheetProtocol {
             
             self.categories = categories
             
+            if self.categoryOrder.isEmpty {
+                self.categoryOrder = Array(categories.keys)
+            }
+            
             allCategories = categories.values.reduce([], +)
             
             WidgetDataManager.setCategories(categories: allCategories)
+        } catch {
+            ErrorManager.shared.logError(error: error, vm: self)
+        }
+        
+        loading = false
+    }
+    
+    func getCategoryOrder() async {
+        loading = true
+        
+        do {
+            let categoryOrder = try await categoryService.getCategoryOrder()
+            
+            if categoryOrder.isEmpty {
+                self.categoryOrder = Array(categories.keys)
+            } else {
+                self.categoryOrder = categoryOrder
+            }
         } catch {
             ErrorManager.shared.logError(error: error, vm: self)
         }
@@ -69,6 +94,37 @@ class CategoryViewModel: ObservableObject, SubcategorySheetProtocol {
             return category
         } else {
             return nil
+        }
+    }
+}
+
+struct CategoryDropDelegate: DropDelegate {
+    let item : String
+    
+    @Binding var items : [String]
+    @Binding var draggedItem : String?
+
+    func performDrop(info: DropInfo) -> Bool {
+        return true
+    }
+    
+    let categoryService = CategoryService()
+
+    func dropEntered(info: DropInfo) {
+        guard let draggedItem = self.draggedItem else {
+            return
+        }
+
+        if draggedItem != item,
+           let from = items.firstIndex(of: draggedItem),
+           let to = items.firstIndex(of: item) {
+            withAnimation {
+                items.move(fromOffsets: IndexSet(integer: from), toOffset: to > from ? to + 1 : to)
+            }
+            
+            Task {
+                try await categoryService.updateCategoryOrder(order: items)
+            }
         }
     }
 }

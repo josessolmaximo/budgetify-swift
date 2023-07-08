@@ -319,7 +319,13 @@ extension BudgetSheetView {
         Divider()
         
         ScrollView {
-            ForEach(categoryVM.categories.keys.filter({ section in
+            let sortedCategories = categoryVM.categories.sorted(by: { category1, category2 in
+                categoryVM.categoryOrder.firstIndex(of: category1.key) ??
+                categoryVM.categoryOrder.count < categoryVM.categoryOrder.firstIndex(of: category2.key) ??
+                categoryVM.categoryOrder.count
+            }).map({ $0.key })
+            
+            ForEach(sortedCategories.filter({ section in
                 return !(categoryVM.categories[section]?.filter({$0.type == .expense}).isEmpty ?? false)
             })) { section in
                 let validCategories = categoryVM.categories[section]?.filter({$0.type == .expense})
