@@ -147,11 +147,14 @@ struct ShortcutSheetView: View {
                             Spacer()
                                 .frame(height: 5)
                             
-                            ForEach($transactionSheetVM.transactions) { $transaction in
-                                // TODO: Properly implement TransactionItemView
-                                TransactionItemView(transaction: $transaction, mode: .shortcut)
-                                    .padding(.horizontal, fitsWidth ? 18 : (proxy.size.width - 351) / 2)
-                                    .environmentObject(transactionSheetVM)
+                            ForEach(transactionSheetVM.transactions) { transaction in
+                                TransactionItemView(transaction: transaction, mode: .shortcut) { transaction in
+                                    if let index = transactionSheetVM.transactions.firstIndex(where: { $0.id == transaction.id }) {
+                                        transactionSheetVM.transactions[index] = transaction
+                                    }
+                                }
+                                .padding(.horizontal, fitsWidth ? 18 : (proxy.size.width - 351) / 2)
+                                .environmentObject(transactionSheetVM)
                             }
                             
                             Button(action: {

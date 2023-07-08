@@ -120,14 +120,6 @@ struct Transaction: Codable, Identifiable, Equatable, Hashable {
         self.creatorPhoto = dict["creatorPhoto"] as? String ?? ""
         self.createdBy = dict["createdBy"] as? String ?? ""
     }
-    
-    static func == (lhs: Transaction, rhs: Transaction) -> Bool {
-        return lhs.id == rhs.id
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
 }
 
 enum PeriodChange: Codable {

@@ -116,6 +116,8 @@
 		D44FCA5A298235BC00267A66 /* CategorySheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44FCA59298235BC00267A66 /* CategorySheetViewModel.swift */; };
 		D452A1D32985750B00E612A5 /* CategoryValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452A1D22985750B00E612A5 /* CategoryValidator.swift */; };
 		D452A1D6298691A300E612A5 /* InfoBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452A1D5298691A300E612A5 /* InfoBox.swift */; };
+		D452D10D2A59206B004A863A /* ExpressionTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452D10C2A59206B004A863A /* ExpressionTextView.swift */; };
+		D452D1102A59432B004A863A /* Expression in Frameworks */ = {isa = PBXBuildFile; productRef = D452D10F2A59432B004A863A /* Expression */; };
 		D4563064295486E900CCAC8D /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4563063295486E900CCAC8D /* Bundle.swift */; };
 		D45630662954A9DD00CCAC8D /* WalletValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45630652954A9DD00CCAC8D /* WalletValidator.swift */; };
 		D456306A2954C89900CCAC8D /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45630692954C89900CCAC8D /* Theme.swift */; };
@@ -454,6 +456,7 @@
 		D44FCA59298235BC00267A66 /* CategorySheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySheetViewModel.swift; sourceTree = "<group>"; };
 		D452A1D22985750B00E612A5 /* CategoryValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryValidator.swift; sourceTree = "<group>"; };
 		D452A1D5298691A300E612A5 /* InfoBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoBox.swift; sourceTree = "<group>"; };
+		D452D10C2A59206B004A863A /* ExpressionTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionTextView.swift; sourceTree = "<group>"; };
 		D4563063295486E900CCAC8D /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
 		D45630652954A9DD00CCAC8D /* WalletValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletValidator.swift; sourceTree = "<group>"; };
 		D45630692954C89900CCAC8D /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -639,6 +642,7 @@
 				D49D176029B8EF7400847C50 /* FaviconFinder in Frameworks */,
 				D44FCA44297FEC2C00267A66 /* RevenueCat in Frameworks */,
 				D4E78F7429EB0F93009ACD92 /* FirebaseAuth in Frameworks */,
+				D452D1102A59432B004A863A /* Expression in Frameworks */,
 				D4E78F8029EB0F93009ACD92 /* FirebaseRemoteConfig in Frameworks */,
 				D4E78F7E29EB0F93009ACD92 /* FirebasePerformance in Frameworks */,
 				D44FCA41297FE82B00267A66 /* StoreKit.framework in Frameworks */,
@@ -1634,6 +1638,7 @@
 				D44DB0782929FFBE00E11D4E /* AttributedTextView.swift */,
 				D44DB0742927D44D00E11D4E /* ImageSheet.swift */,
 				D4DA35B1292BC56C003AD543 /* MapView.swift */,
+				D452D10C2A59206B004A863A /* ExpressionTextView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2062,6 +2067,7 @@
 				D4E78F8629EB0FD6009ACD92 /* GoogleSignIn */,
 				D4E78F8829EB0FD6009ACD92 /* GoogleSignInSwift */,
 				D44A4A2729FFEE2400475617 /* CodableCSV */,
+				D452D10F2A59432B004A863A /* Expression */,
 			);
 			productName = ExpenseTracker;
 			productReference = D4FDD12B28E85E0400F10DAD /* Budgetify.app */;
@@ -2116,6 +2122,7 @@
 				D4E78F6C29EB0F93009ACD92 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				D4E78F8529EB0FD6009ACD92 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				D44A4A2629FFEE2400475617 /* XCRemoteSwiftPackageReference "CodableCSV" */,
+				D452D10E2A59432B004A863A /* XCRemoteSwiftPackageReference "Expression" */,
 			);
 			productRefGroup = D4FDD12C28E85E0400F10DAD /* Products */;
 			projectDirPath = "";
@@ -2469,6 +2476,7 @@
 				D4DA35BC292E61F6003AD543 /* WalletService.swift in Sources */,
 				D41A3E80293A5140000A22BB /* HomeModel.swift in Sources */,
 				D420423929C729C80019C9C0 /* AmountTextView.swift in Sources */,
+				D452D10D2A59206B004A863A /* ExpressionTextView.swift in Sources */,
 				D4BD501B29EC358500895195 /* RoadmapDetailView.swift in Sources */,
 				D4FDD12F28E85E0400F10DAD /* BudgetifyApp.swift in Sources */,
 				D4FDD15228E9A55A00F10DAD /* TransactionViewModel.swift in Sources */,
@@ -3020,6 +3028,14 @@
 				minimumVersion = 4.17.3;
 			};
 		};
+		D452D10E2A59432B004A863A /* XCRemoteSwiftPackageReference "Expression" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nicklockwood/Expression.git";
+			requirement = {
+				kind = exactVersion;
+				version = 0.13.0;
+			};
+		};
 		D491F2FA29E5C950009814C6 /* XCRemoteSwiftPackageReference "ExpandableText" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/NuPlay/ExpandableText.git";
@@ -3113,6 +3129,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D44FCA42297FEC2C00267A66 /* XCRemoteSwiftPackageReference "purchases-ios" */;
 			productName = RevenueCat;
+		};
+		D452D10F2A59432B004A863A /* Expression */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D452D10E2A59432B004A863A /* XCRemoteSwiftPackageReference "Expression" */;
+			productName = Expression;
 		};
 		D48EA9F429EE953700DEBF45 /* CachedAsyncImage */ = {
 			isa = XCSwiftPackageProductDependency;

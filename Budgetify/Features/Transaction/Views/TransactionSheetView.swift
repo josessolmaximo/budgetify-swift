@@ -41,11 +41,15 @@ struct TransactionSheetView: View {
                 ZStack {
                     ScrollView {
                         LazyVStack(spacing: 0) {
-                            ForEach($vm.transactions) { $transaction in
-                                TransactionItemView(transaction: $transaction, mode: vm.doesTransactionExist ? .create : vm.isRecurringMode ? .recurring : .update)
-                                    .padding(.horizontal, fitsWidth ? 18 : (proxy.size.width - 351) / 2)
-                                    .environmentObject(vm)
-                                    .allowsHitTesting(vm.canDismiss)
+                            ForEach(vm.transactions) { transaction in
+                                TransactionItemView(transaction: transaction, mode: vm.doesTransactionExist ? .create : vm.isRecurringMode ? .recurring : .update) { transaction in
+                                    if let index = vm.transactions.firstIndex(where: { $0.id == transaction.id }) {
+                                        vm.transactions[index] = transaction
+                                    }
+                                }
+                                .padding(.horizontal, fitsWidth ? 18 : (proxy.size.width - 351) / 2)
+                                .environmentObject(vm)
+                                .allowsHitTesting(vm.canDismiss)
                             }
                         }
                         
@@ -111,6 +115,8 @@ struct TransactionSheetView: View {
                                 .tint(tm.selectedTheme.tintColor)
                         } else {
                             Button(vm.doesTransactionExist ? "Save" : "Add") {
+                                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                                
                                 if !vm.doesTransactionExist {
                                     Task {
                                         await vm.addTransactions(transactionVM: transactionVM,
@@ -130,6 +136,7 @@ struct TransactionSheetView: View {
                                         )
                                     }
                                 }
+                                
                             }
                             .foregroundColor(tm.selectedTheme.tintColor)
                         }
@@ -138,11 +145,6 @@ struct TransactionSheetView: View {
                             viewBlocker
                         }
                     }
-                }
-            }
-            .toolbar {
-                ToolbarItem(placement: .keyboard) {
-                    KeyboardToolbar()
                 }
             }
         }

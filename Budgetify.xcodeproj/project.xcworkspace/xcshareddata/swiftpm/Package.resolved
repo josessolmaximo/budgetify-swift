@@ -55,6 +55,15 @@
       }
     },
     {
+      "identity" : "expression",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nicklockwood/Expression.git",
+      "state" : {
+        "revision" : "81c7e1610cd16a12447bde741b73367a48fa5a2e",
+        "version" : "0.13.0"
+      }
+    },
+    {
       "identity" : "faviconfinder",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/will-lumley/FaviconFinder.git",

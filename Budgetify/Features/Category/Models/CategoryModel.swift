@@ -95,7 +95,7 @@ extension Category {
     }
 }
 
-enum TransactionType: String, Codable, CaseIterable {
+enum TransactionType: String, Codable, CaseIterable, Hashable {
     case income = "Income"
     case expense = "Expense"
     case transfer = "Transfer"

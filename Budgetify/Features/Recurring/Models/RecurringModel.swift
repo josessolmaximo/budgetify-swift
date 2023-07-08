@@ -9,7 +9,7 @@ import Foundation
 import OrderedCollections
 import FirebaseFirestore
 
-struct Recurring: Codable {
+struct Recurring: Codable, Hashable {
     var type: RecurringType
     var date: Date
     var amount: Int
@@ -68,7 +68,7 @@ struct Recurring: Codable {
     }
 }
 
-enum RecurringType: String, Codable, CaseIterable {
+enum RecurringType: String, Codable, CaseIterable, Hashable {
     case none = "None"
     case daily = "Daily"
     case weekly = "Weekly"
@@ -77,7 +77,7 @@ enum RecurringType: String, Codable, CaseIterable {
     case custom = "Custom"
 }
 
-enum CustomType: String, Codable {
+enum CustomType: String, Codable, Hashable {
     case first = "first"
     case last = "last"
 }

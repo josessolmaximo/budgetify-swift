@@ -22,7 +22,9 @@ struct TransactionItemView: View {
     
     @ObservedObject var sm = SettingsManager.shared
     
-    @Binding var transaction: Transaction
+    @State var amountExpression = ""
+    
+    @State var transaction: Transaction
     
     @FocusState var focusedField: FocusedField?
     
@@ -37,6 +39,8 @@ struct TransactionItemView: View {
     
     var locationManager = CLLocationManager()
     
+    private let onTransactionChange: ((_ transaction: Transaction) -> Void)?
+    
     public var mode: ItemMode
     
     enum ItemMode {
@@ -46,12 +50,13 @@ struct TransactionItemView: View {
         case shortcut
     }
     
-    init(transaction: Binding<Transaction>, mode: ItemMode) {
-        self._transaction = transaction
-        self._vm = StateObject(wrappedValue: TransactionItemViewModel(transaction: transaction))
-        self._mapVM = StateObject(wrappedValue: MapViewModel(transaction: transaction.wrappedValue))
+    init(transaction: Transaction, mode: ItemMode, onTransactionChange: ((_ transaction: Transaction) -> Void)? = nil) {
+        self._transaction = State(initialValue: transaction)
+        self._vm = StateObject(wrappedValue: TransactionItemViewModel())
+        self._mapVM = StateObject(wrappedValue: MapViewModel(transaction: transaction))
         
         self.mode = mode
+        self.onTransactionChange = onTransactionChange
     }
     
     var body: some View {
@@ -87,12 +92,17 @@ struct TransactionItemView: View {
                     .foregroundColor(tm.selectedTheme.tertiaryLabel)
                     .font(.system(size: 44))
                 
-                TextField("0", value: $transaction.amount, format: .number)
+                ExpressionTextView(text: $amountExpression, amount: $transaction.amount)
+//                TextField("0", text: $amountExpression)
                     .foregroundColor(tm.selectedTheme.primaryLabel)
-                    .font(.system(size: 44, weight: .semibold))
-                    .keyboardType(.decimalPad)
-                    .focused($focusedField, equals: .amount)
-                
+//                    .font(.system(size: 44, weight: .semibold))
+//                    .keyboardType(.decimalPad)
+//                    .focused($focusedField, equals: .amount)
+//                    .onAppear {
+//                        if let amount = transaction.amount {
+//                            amountExpression = "\(amount)"
+//                        }
+//                    }
             }
             .padding(.vertical)
             
@@ -190,7 +200,7 @@ struct TransactionItemView: View {
                                     }
                                     .contextMenu {
                                         Button(role: .destructive) {
-                                            vm.removeImage(index: index, id: image, transactionSheetVM: transactionSheetVM)
+                                            removeImage(index: index, id: image, transactionSheetVM: transactionSheetVM)
                                         } label: {
                                             Text("Delete")
                                             Image(systemName: "trash")
@@ -209,7 +219,7 @@ struct TransactionItemView: View {
                                     .cornerRadius(10)
                                     .contextMenu {
                                         Button(role: .destructive) {
-                                            vm.removeImage(index: index, id: nil, transactionSheetVM: transactionSheetVM)
+                                            removeImage(index: index, id: nil, transactionSheetVM: transactionSheetVM)
                                         } label: {
                                             Text("Delete")
                                             Image(systemName: "trash")
@@ -232,7 +242,7 @@ struct TransactionItemView: View {
                                     .cornerRadius(10)
                                     .contextMenu {
                                         Button(role: .destructive) {
-                                            vm.removeImage(index: index, id: nil, transactionSheetVM: transactionSheetVM)
+                                            removeImage(index: index, id: nil, transactionSheetVM: transactionSheetVM)
                                         } label: {
                                             Text("Delete")
                                             Image(systemName: "trash")
@@ -256,19 +266,64 @@ struct TransactionItemView: View {
         .sheet(item: $transactionSheetVM.isCameraSheetShown) { mode in
             if mode == "camera" {
                 CameraPicker { image, imageData in
-                    vm.addImage(image: image, imageData: imageData, transactionSheetVM: transactionSheetVM)
+                    addImage(image: image, imageData: imageData, transactionSheetVM: transactionSheetVM)
                 }
                 .ignoresSafeArea()
             } else {
                 ImagePicker(isCameraSheetShown: $transactionSheetVM.isCameraSheetShown) { image, imageData in
-                    vm.addImage(image: image, imageData: imageData, transactionSheetVM: transactionSheetVM)
+                    addImage(image: image, imageData: imageData, transactionSheetVM: transactionSheetVM)
                 }
             }
         }
         .onChange(of: transaction) { transaction in
-            if let index = transactionSheetVM.transactions.firstIndex(where: { $0.id == transaction.id }) {
-                transactionSheetVM.transactions[index] = transaction
+            onTransactionChange?(transaction)
+//            if let index = transactionSheetVM.transactions.firstIndex(where: { $0.id == transaction.id }) {
+//                transactionSheetVM.transactions[index] = transaction
+//            }
+        }
+//        .toolbar {
+//            ToolbarItem(placement: .keyboard) {
+//                KeyboardToolbar(showCalculator: true) { text in
+//                    amountExpression += text
+//                }
+//                .onDisappear {
+//                    let expression = NSExpression(format: amountExpression)
+//
+//                    if let expressionAmount = expression.expressionValue(with: nil, context: nil) as? Double {
+//                        transaction.amount = Decimal(expressionAmount)
+//                        amountExpression = "\(expressionAmount)"
+//                    }
+//                }
+//            }
+//        }
+    }
+    
+    func removeImage(index: Int, id: String?, transactionSheetVM: TransactionSheetViewModel){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7){
+            if transactionSheetVM.doesTransactionExist {
+                if id == nil {
+                    vm.images.remove(at: index)
+                    
+                    self.transaction.images.remove(at: index + self.transaction.images.count - 1)
+                    self.transaction.imagesData.remove(at: index)
+                } else {
+                    self.transaction.images.remove(at: index)
+                }
+            } else {
+                vm.images.remove(at: index)
+                self.transaction.images.remove(at: index)
+                self.transaction.imagesData.remove(at: index)
             }
+        }
+    }
+    
+    func addImage(image: UIImage, imageData: Data, transactionSheetVM: TransactionSheetViewModel){
+        DispatchQueue.main.async {
+            transactionSheetVM.isCameraSheetShown = nil
+            
+            vm.images.append(image)
+            self.transaction.images.append(UUID().uuidString)
+            self.transaction.imagesData.append(imageData)
         }
     }
 }

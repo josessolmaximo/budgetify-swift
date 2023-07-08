@@ -8,7 +8,7 @@
 import SwiftUI
 import MapKit
 
-struct Coordinate: Codable {
+struct Coordinate: Codable, Hashable {
     var longitude: Double
     var latitude: Double
     
@@ -36,7 +36,7 @@ struct Coordinate: Codable {
     }
 }
 
-struct Place: Identifiable, Codable {
+struct Place: Identifiable, Codable, Hashable {
     var id = UUID()
     var coordinate: Coordinate?
     var name: String
