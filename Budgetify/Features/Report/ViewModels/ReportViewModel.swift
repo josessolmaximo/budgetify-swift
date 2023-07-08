@@ -80,9 +80,12 @@ class ReportViewModel: ObservableObject {
             
             for transaction in transactionVM.filteredTransactions {
                 let calendarDate = Calendar.current.dateComponents([.weekday, .hour], from: transaction.date)
+                let startWeekday = Calendar.current.dateComponents([.weekday], from: transactionVM.startDate).weekday!
                 
                 if selectedTypes.contains(transaction.type) {
-                    monthlyData[calendarDate.weekday! - 1] += transaction.amount?.doubleValue ?? 0
+                    let difference = calendarDate.weekday! - startWeekday
+                    
+                    monthlyData[difference > 0 ? difference : 7 + difference] += transaction.amount?.doubleValue ?? 0
                     categoryData[transaction.category, default: 0] += transaction.amount?.doubleValue ?? 0
                     timeArray[calendarDate.hour!] += transaction.amount?.doubleValue ?? 0
                 }
