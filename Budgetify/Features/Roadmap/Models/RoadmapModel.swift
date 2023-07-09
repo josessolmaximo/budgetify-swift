@@ -17,6 +17,7 @@ struct RoadmapFeature: Codable, Identifiable {
     var votes: [String] = []
     var comments: [Comment] = []
     var isApproved = false
+    var isBug = false
     
     var dictionary: [String: Any] {
         return [
@@ -28,7 +29,8 @@ struct RoadmapFeature: Codable, Identifiable {
             "createdBy": createdBy?.dictionary,
             "votes": votes,
             "comments": comments.map({ $0.dictionary }),
-            "isApproved": isApproved
+            "isApproved": isApproved,
+            "isBug": isBug
         ]
     }
 }

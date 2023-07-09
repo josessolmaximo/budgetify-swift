@@ -66,6 +66,18 @@ struct RoadmapDetailView: View {
                                 
                                 Spacer()
                                 
+                                if feature.isBug {
+                                    Text("Bug")
+                                        .font(.system(size: 13, weight: .medium))
+                                        .foregroundColor(.white)
+                                        .padding(5)
+                                        .padding(.horizontal, 5)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 5)
+                                                .foregroundColor(.red)
+                                        )
+                                }
+                                
                                 Text(feature.status.rawValue)
                                     .font(.system(size: 13, weight: .medium))
                                     .foregroundColor(.white)
@@ -143,7 +155,7 @@ struct RoadmapDetailView: View {
                 .padding(.horizontal)
             }
         }
-        .navigationTitle("Feature Detail")
+        .navigationTitle("Feature")
         .modifier(CustomBackButtonModifier(dismiss: dismiss))
         .analyticsScreen(name: self.pageTitle, class: self.pageTitle)
         .toolbar {

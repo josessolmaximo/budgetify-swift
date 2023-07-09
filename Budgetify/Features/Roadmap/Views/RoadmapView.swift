@@ -166,6 +166,18 @@ extension RoadmapView {
                     
                     Spacer()
                     
+                    if feature.isBug {
+                        Text("Bug")
+                            .font(.system(size: 13, weight: .medium))
+                            .foregroundColor(.white)
+                            .padding(5)
+                            .padding(.horizontal, 5)
+                            .background(
+                                RoundedRectangle(cornerRadius: 5)
+                                    .foregroundColor(.red)
+                            )
+                    }
+                    
                     Text(feature.status.rawValue)
                         .font(.system(size: 13, weight: .medium))
                         .foregroundColor(.white)

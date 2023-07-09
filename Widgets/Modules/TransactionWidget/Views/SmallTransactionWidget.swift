@@ -35,7 +35,7 @@ struct SmallTransactionWidget: View {
                             Text(sm.currencySymbols ? currencyCode.currencySymbol : currencyCode)
                                 .foregroundColor(tm.selectedTheme.tertiaryLabel)
                             
-                            AmountTextView(entry.transactions.reduce(0, { result, transaction in
+                            AmountTextView(entry.transactions.filter({ $0.type != .transfer }).reduce(0, { result, transaction in
                                 transaction.type == .expense ? result - (transaction.amount ?? 0) : result + (transaction.amount ?? 0)
                             }).doubleValue.abbreviated)
                             .redacted(reason: isLoading ? .placeholder: [])
