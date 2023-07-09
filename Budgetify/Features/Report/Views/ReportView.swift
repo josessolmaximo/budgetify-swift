@@ -42,9 +42,13 @@ struct ReportView: View {
                         chartView
                             .padding(.top, 5)
                         
-                        categoryView
+                        if !vm.categoryData.isEmpty {
+                            categoryView
+                        }
                         
-                        timeView
+                        if !vm.timeData.isEmpty {
+                            timeView
+                        }
                         
                         Spacer()
                     }

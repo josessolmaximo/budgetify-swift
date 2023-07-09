@@ -30,9 +30,9 @@ struct LoginView: View {
                 
                 title
                 
-//                subtitle
+                subtitle
                 
-//                featureList
+                featureList
                 
                 Spacer()
                 

@@ -70,23 +70,47 @@ struct SettingsView: View {
                                     toggle: $sm.currencySymbols
                                 )
                                 
-                                toggleRow(
-                                    title: "Hide Empty Wallets",
-                                    image: "circle.slash",
-                                    toggle: $sm.hideEmptyWallets
-                                )
-                                
-                                toggleRow(
-                                    title: "Show Subcategories On Report By Default",
-                                    image: "square.grid.2x2",
-                                    toggle: $sm.showReportSubcategoriesAS
-                                )
-                                
                                 stepperRow(
                                     title: "Decimal Points",
                                     image: "centsign",
                                     selection: $sm.decimalPoints,
                                     range: 0...5
+                                )
+                                
+                                menuRow(
+                                    title: "Start of Week",
+                                    image: "calendar",
+                                    selection: $sm.startOfWeek,
+                                    selected: sm.startOfWeek,
+                                    data: Weekday.allCases
+                                )
+                                
+                                Spacer()
+                                    .frame(height: 5)
+                            }
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .foregroundColor(Color(uiColor: colorScheme == .light ? .systemGray6 : .systemGray5))
+                            )
+                        }
+                        
+                        VStack(spacing: 10) {
+                            HStack {
+                                Text("Wallet")
+                                    .font(.system(size: 14, weight: .medium))
+                                    .foregroundColor(tm.selectedTheme.secondaryLabel)
+                                    .padding(.leading, 10)
+                                Spacer()
+                            }
+                            
+                            VStack {
+                                Spacer()
+                                    .frame(height: 5)
+                                
+                                toggleRow(
+                                    title: "Hide Empty Wallets",
+                                    image: "circle.slash",
+                                    toggle: $sm.hideEmptyWallets
                                 )
                                 
                                 menuRow(
@@ -97,12 +121,32 @@ struct SettingsView: View {
                                     data: LineGraphStyle.allCases
                                 )
                                 
-                                menuRow(
-                                    title: "Start of Week",
-                                    image: "calendar",
-                                    selection: $sm.startOfWeek,
-                                    selected: sm.startOfWeek,
-                                    data: Weekday.allCases
+                                Spacer()
+                                    .frame(height: 5)
+                            }
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .foregroundColor(Color(uiColor: colorScheme == .light ? .systemGray6 : .systemGray5))
+                            )
+                        }
+                        
+                        VStack(spacing: 10) {
+                            HStack {
+                                Text("Report")
+                                    .font(.system(size: 14, weight: .medium))
+                                    .foregroundColor(tm.selectedTheme.secondaryLabel)
+                                    .padding(.leading, 10)
+                                Spacer()
+                            }
+                            
+                            VStack {
+                                Spacer()
+                                    .frame(height: 5)
+                                
+                                toggleRow(
+                                    title: "Show Subcategories",
+                                    image: "square.grid.2x2",
+                                    toggle: $sm.showReportSubcategoriesAS
                                 )
                                 
                                 Spacer()

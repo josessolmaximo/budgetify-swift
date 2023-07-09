@@ -14,6 +14,10 @@ extension Float {
         formatter.minimumIntegerDigits = 1
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 2
+        
+        formatter.groupingSeparator = "."
+        formatter.decimalSeparator = ","
+        
         return formatter.string(from: self as NSNumber) ?? "0"
     }
     

@@ -117,26 +117,27 @@ struct TransactionSheetView: View {
                             Button(vm.doesTransactionExist ? "Save" : "Add") {
                                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                                 
-                                if !vm.doesTransactionExist {
-                                    Task {
-                                        await vm.addTransactions(transactionVM: transactionVM,
-                                                                 walletVM: walletVM,
-                                                                 budgetVM: budgetVM,
-                                                                 recurringVM: recurringVM,
-                                                                 categoryVM: categoryVM
-                                        )
-                                    }
-                                } else {
-                                    Task {
-                                        await vm.updateTransactions(transactionVM: transactionVM,
-                                                                    recurringVM: recurringVM,
-                                                                    walletVM: walletVM,
-                                                                    budgetVM: budgetVM,
-                                                                    categoryVM: categoryVM
-                                        )
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                    if !vm.doesTransactionExist {
+                                        Task {
+                                            await vm.addTransactions(transactionVM: transactionVM,
+                                                                     walletVM: walletVM,
+                                                                     budgetVM: budgetVM,
+                                                                     recurringVM: recurringVM,
+                                                                     categoryVM: categoryVM
+                                            )
+                                        }
+                                    } else {
+                                        Task {
+                                            await vm.updateTransactions(transactionVM: transactionVM,
+                                                                        recurringVM: recurringVM,
+                                                                        walletVM: walletVM,
+                                                                        budgetVM: budgetVM,
+                                                                        categoryVM: categoryVM
+                                            )
+                                        }
                                     }
                                 }
-                                
                             }
                             .foregroundColor(tm.selectedTheme.tintColor)
                         }

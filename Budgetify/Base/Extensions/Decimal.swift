@@ -12,6 +12,10 @@ extension Decimal {
         let formatter = NumberFormatter()
         
         formatter.numberStyle = .decimal
+        
+        formatter.groupingSeparator = "."
+        formatter.decimalSeparator = ","
+        
         formatter.maximumFractionDigits = SettingsManager.shared.decimalPoints
         
         return formatter.string(from: self as NSNumber) ?? "0"

@@ -109,7 +109,7 @@ class BudgetSheetViewModel: ObservableObject {
             try BudgetValidator.validate(budget: budget)
             try await parentVM.budgetService.updateBudget(budget: budget)
             
-            if budget.range != uneditedBudget.range {
+            if budget.range != uneditedBudget.range || budget.categories != uneditedBudget.categories {
                 let prevTransactions = try await transactionService.getTransactions(startDate: uneditedBudget.startDate, endDate: uneditedBudget.endDate)
                 let transactions = try await transactionService.getTransactions(startDate: budget.startDate, endDate: budget.endDate)
                 

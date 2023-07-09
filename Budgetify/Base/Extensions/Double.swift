@@ -13,6 +13,9 @@ extension Double {
         formatter.numberStyle = .decimal
         formatter.maximumFractionDigits = 2
         
+        formatter.groupingSeparator = "."
+        formatter.decimalSeparator = ","
+        
         return formatter.string(from: self as NSNumber) ?? "0"
     }
 }

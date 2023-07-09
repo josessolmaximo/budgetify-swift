@@ -290,7 +290,7 @@ class TransactionViewModel: ObservableObject {
                     if transaction.type == .expense {
                         try await budgetVM.budgetService.updateBudgetAmount(id: budget.id.uuidString, amount: transaction.amount?.doubleValue ?? 0)
                         
-                        if let index = mutableTransactions.firstIndex(where: { $0 == transaction }){
+                        if let index = mutableTransactions.firstIndex(where: { $0.id == transaction.id }){
                             mutableTransactions[index].budgetRefs.append(budget.id.uuidString)
                         }
                     }
@@ -472,7 +472,6 @@ class TransactionViewModel: ObservableObject {
         
         do {
             let transactions = try await transactionService.getTransactions(startDate: history.startDate, endDate: history.endDate)
-
             return transactions.filter({ transaction in
                 history.categories.contains(transaction.category) && transaction.type == .expense && transaction.budgetRefs.contains(budget.id.uuidString)
             })

@@ -14,6 +14,20 @@ struct ExpressionTextView: UIViewRepresentable {
     
     @Binding var amount: Decimal?
     
+    var numberFormatter: NumberFormatter {
+        let nf = NumberFormatter()
+        
+        nf.numberStyle = .decimal
+        
+        nf.minimumFractionDigits = 0
+        nf.maximumFractionDigits = 10
+        
+        nf.groupingSeparator = "."
+        nf.decimalSeparator = ","
+        
+        return nf
+    }
+    
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
@@ -22,11 +36,6 @@ struct ExpressionTextView: UIViewRepresentable {
         let textField = UITextField()
         
         if let amount = amount {
-            let numberFormatter = NumberFormatter()
-            
-            numberFormatter.minimumFractionDigits = 0
-            numberFormatter.maximumFractionDigits = 10
-            
             let stringValue = numberFormatter.string(from: NSNumber(value: amount.doubleValue)) ?? ""
             
             textField.text = stringValue
@@ -171,17 +180,16 @@ struct ExpressionTextView: UIViewRepresentable {
         func textFieldDidEndEditing(_ textField: UITextField) {
             guard let expressionText = textField.text else { return }
             
+            let formattedText = expressionText
+                .replacingOccurrences(of: ".", with: "")
+                .replacingOccurrences(of: ",", with: ".")
+            
             do {
-                let expression = Expression(expressionText)
+                let expression = Expression(formattedText)
                 
                 let expressionAmount = try expression.evaluate()
                 
-                let numberFormatter = NumberFormatter()
-                
-                numberFormatter.minimumFractionDigits = 0
-                numberFormatter.maximumFractionDigits = 10
-                
-                let stringValue = numberFormatter.string(from: NSNumber(value: expressionAmount)) ?? ""
+                let stringValue = parent?.numberFormatter.string(from: NSNumber(value: expressionAmount)) ?? ""
                 
                 if expressionAmount.isFinite {
                     textField.text = "\(stringValue)"
