@@ -11,6 +11,10 @@ import FirebaseCrashlytics
 
 struct ContentView: View {
     @AppStorage("userId", store: .grouped) var userId: String?
+    @AppStorage("email", store: .grouped) var email: String?
+    @AppStorage("name", store: .grouped) var name: String?
+    @AppStorage("photoURL", store: .grouped) var photoURL: URL?
+    
     @AppStorage("selectedUserId", store: .grouped) var selectedUserId: String?
     @AppStorage("currencyCode", store: .grouped) var currencyCode: String?
     
@@ -62,6 +66,18 @@ struct ContentView: View {
             await sharingVM.getData()
             await shortcutVM.getShortcuts()
             await PremiumManager.shared.getPremium(id: selectedUserId ?? "")
+        }
+        
+        AnalyticService.updateUserProperty(.appVersion, value: "\(Bundle.main.releaseVersionNumber) (\(Bundle.main.buildVersionNumber))")
+        
+        if let userId = userId,
+           let email = email {
+            AnalyticService.updateUserData(
+                User(id: userId,
+                     email: email,
+                     displayName: name ?? "",
+                     photoURL: photoURL?.absoluteString ?? "")
+                )
         }
     }
     

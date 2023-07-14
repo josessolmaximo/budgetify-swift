@@ -17,8 +17,11 @@ struct PremiumSheetView: View {
     
     let onDismiss: (() -> Void)?
     
-    init(onDismiss: (() -> Void)? = nil){
+    let lastScreen: String
+    
+    init(lastScreen: String, onDismiss: (() -> Void)? = nil){
         self.onDismiss = onDismiss
+        self.lastScreen = lastScreen
     }
     
     var body: some View {
@@ -93,11 +96,11 @@ struct PremiumSheetView: View {
 
 struct PremiumSheetView_Previews: PreviewProvider {
     static var previews: some View {
-        PremiumSheetView()
+        PremiumSheetView(lastScreen: "")
             .withPreviewEnvironmentObjects()
             .previewDevice(PreviewDevice(rawValue: "iPhone 8"))
         
-        PremiumSheetView()
+        PremiumSheetView(lastScreen: "")
             .withPreviewEnvironmentObjects()
             .previewDevice(PreviewDevice(rawValue: "iPhone 12"))
     }
@@ -143,7 +146,7 @@ extension PremiumSheetView {
         Button(action: {
             if !vm.loading {
                 Task {
-                    await vm.purchase()
+                    await vm.purchase(lastScreen: lastScreen)
                 }
             }
         }, label: {

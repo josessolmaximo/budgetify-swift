@@ -8,6 +8,7 @@
 import SwiftUI
 import StoreKit
 import AVKit
+import Mixpanel
 
 struct OnboardingView: View {
     @Environment(\.dismiss) var dismiss
@@ -85,6 +86,12 @@ extension OnboardingView {
         requestedRating = true
         
         AnalyticService.updateUserProperty(.requestedRating, value: true)
+        
+        Mixpanel.mainInstance().track(event: "Sign Up", properties: [
+            "shownOnboarding": true,
+            "skippedOnboarding": false,
+            "requestedRating": true,
+        ])
     }
     
     func replayVideo(page: OnboardingPage){
@@ -97,6 +104,7 @@ extension OnboardingView {
             PlayerView.postReplayNotification(.replayTransactionVideo)
         }
     }
+    
     var firstPage: some View {
         VStack(alignment: .leading, spacing: 5) {
             Spacer()
@@ -129,7 +137,7 @@ extension OnboardingView {
             HStack {
                 if selectedPage == .transaction && ConfigManager.shared.onboarding.showPaywall {
                     NavigationLink {
-                        PremiumSheetView {
+                        PremiumSheetView(lastScreen: self.pageTitle) {
                             dismiss()
                             
                             requestRating()
@@ -182,6 +190,12 @@ extension OnboardingView {
                     dismiss()
                     
                     AnalyticService.updateUserProperty(.skippedOnboarding, value: true)
+                    
+                    Mixpanel.mainInstance().track(event: "Sign Up", properties: [
+                        "shownOnboarding": true,
+                        "skippedOnboarding": true,
+                        "requestedRating": false,
+                    ])
                 } label: {
                     Text("Skip")
                         .foregroundColor(tm.selectedTheme.secondaryLabel)

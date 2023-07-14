@@ -13,6 +13,9 @@ import FirebaseRemoteConfig
 import FirebaseAnalytics
 import FirebaseAuth
 import RevenueCat
+import LogRocket
+import Bugsnag
+import Mixpanel
 
 @main
 struct BudgetifyApp: App {
@@ -51,6 +54,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         }
         
         let _ = ConfigManager.shared
+        
+        SDK.initialize(configuration: Configuration(appID: "xj2fdl/budgetify"))
+        
+        Bugsnag.start()
+        
+        Mixpanel.initialize(token: "bdda7fd61a5b8891a86ae99ce3a242b1", trackAutomaticEvents: true)
         
         return true
     }

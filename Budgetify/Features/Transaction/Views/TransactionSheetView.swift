@@ -152,7 +152,7 @@ struct TransactionSheetView: View {
         .analyticsScreen(name: self.pageTitle, class: self.pageTitle)
         .errorAlert(error: $em.serviceError)
         .sheet(isPresented: $em.premiumError, content: {
-            PremiumSheetView()
+            PremiumSheetView(lastScreen: self.pageTitle)
         })
         .onChange(of: vm.shouldSheetDismiss) { value in
             if value && vm.canDismiss {

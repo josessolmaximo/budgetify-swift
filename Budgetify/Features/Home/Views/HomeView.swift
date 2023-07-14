@@ -9,13 +9,20 @@ import SwiftUI
 import WidgetKit
 import FirebaseAnalytics
 import FirebaseCrashlytics
+import LogRocket
+import Bugsnag
+import Mixpanel
 
 struct HomeView: View {
     @Environment(\.scenePhase) var scenePhase
     
     @AppStorage("userId", store: .grouped) var userId: String = ""
-    @AppStorage("selectedUserId", store: .grouped) var selectedUserId: String = ""
+    @AppStorage("email", store: .grouped) var email: String?
+    @AppStorage("name", store: .grouped) var name: String?
     @AppStorage("photoURL", store: .grouped) var photoURL: URL?
+    
+    @AppStorage("selectedUserId", store: .grouped) var selectedUserId: String = ""
+    
     @AppStorage("doesUserExist", store: .grouped) var doesUserExist = true
     @AppStorage("hasShownOnboarding", store: .grouped) var hasShownOnboarding = false
     
@@ -130,6 +137,13 @@ struct HomeView: View {
             Crashlytics.crashlytics().setUserID(userId)
             Analytics.setUserID(userId)
             
+            SDK.identify(userID: userId, userInfo: [
+              "name": name ?? "",
+              "email": email ?? "",
+            ])
+            
+            Bugsnag.setUser(userId, withEmail: email ?? "", andName: name ?? "")
+            
             WidgetCenter.shared.getCurrentConfigurations { result in
                 switch result {
                 case .success(let info):
@@ -142,6 +156,8 @@ struct HomeView: View {
             }
             
             AnalyticService.updateUserProperty(.paywallConfig, value: ConfigManager.shared.paywallLimits)
+            
+            Crashlytics.crashlytics().setCustomValue(Locale.current.identifier, forKey: "locale")
             
             #if DEBUG
             Crashlytics.crashlytics().setCustomValue(true, forKey: "isDebug")

@@ -21,6 +21,8 @@ struct UserProperties: Codable {
     var lastSeen: Date
     var shownOnboarding: Bool
     var skippedOnboarding: Bool
+    var appVersion: String
+    var faviconURLs: [String]
     
     enum CodingKeys: CodingKey {
         case transactions
@@ -36,5 +38,7 @@ struct UserProperties: Codable {
         case lastSeen
         case shownOnboarding
         case skippedOnboarding
+        case appVersion
+        case faviconURLs
     }
 }

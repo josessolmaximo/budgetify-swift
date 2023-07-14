@@ -16,6 +16,24 @@ struct AnalyticService {
         return Firestore.firestore().collection("users").document(userId)
     }
     
+    static func updateUserData(_ user: User) {
+        guard !userId.isEmpty else { return }
+        
+        dbRef
+            .updateData([
+                "userData": user.dictionary
+            ])
+    }
+    
+    static func appendUserProperty(_ field: UserProperties.CodingKeys, value: [Any]) {
+        guard !userId.isEmpty else { return }
+        
+        dbRef
+            .updateData([
+                "properties.\(field.stringValue)": FieldValue.arrayUnion(value)
+            ])
+    }
+    
     static func updateUserProperty(_ field: UserProperties.CodingKeys, value: Any) {
         guard !userId.isEmpty else { return }
         

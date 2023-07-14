@@ -178,7 +178,7 @@ struct IconPickerView: View {
         .analyticsScreen(name: self.pageTitle, class: self.pageTitle)
         .errorAlert(error: $em.serviceError)
         .sheet(isPresented: $em.premiumError, content: {
-            PremiumSheetView()
+            PremiumSheetView(lastScreen: self.pageTitle)
         })
     }
 }
@@ -202,6 +202,10 @@ extension IconPickerView {
                     onDismiss(icon.src ?? "")
                     
                     AnalyticService.incrementUserProperty(.favicons, value: 1)
+                    
+                    if let iconSrc = icon.src {
+                        AnalyticService.appendUserProperty(.faviconURLs, value: [iconSrc])
+                    }
                 } else {
                     ErrorManager.shared.premiumError = true
                 }

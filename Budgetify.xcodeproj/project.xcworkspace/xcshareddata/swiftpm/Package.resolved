@@ -28,6 +28,15 @@
       }
     },
     {
+      "identity" : "bugsnag-cocoa",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/bugsnag/bugsnag-cocoa",
+      "state" : {
+        "revision" : "7410780b8e579be1d38e0245e2b3ccb6ae283ae1",
+        "version" : "6.27.0"
+      }
+    },
+    {
       "identity" : "chartview",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/AppPear/ChartView",
@@ -145,12 +154,48 @@
       }
     },
     {
+      "identity" : "ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/uxcam/ios-sdk",
+      "state" : {
+        "revision" : "1bd906ec165ec0ae3756f013b8be86647a30c5b2",
+        "version" : "3.6.4"
+      }
+    },
+    {
+      "identity" : "ios-swiftui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/uxcam/ios-swiftui",
+      "state" : {
+        "revision" : "f59cdb8cd6763abd185e503a7f56b4e32fa028b4",
+        "version" : "1.0.4"
+      }
+    },
+    {
       "identity" : "leveldb",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/leveldb.git",
       "state" : {
         "revision" : "0706abcc6b0bd9cedfbb015ba840e4a780b5159b",
         "version" : "1.22.2"
+      }
+    },
+    {
+      "identity" : "logrocket-ios-swift-package",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/LogRocket/logrocket-ios-swift-package",
+      "state" : {
+        "revision" : "ff0efd4a894eb6df97f417825816f855c68addc5",
+        "version" : "1.17.0"
+      }
+    },
+    {
+      "identity" : "mixpanel-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mixpanel/mixpanel-swift",
+      "state" : {
+        "revision" : "7c6f28ecbf49a72d952974f7f649686e43861f0d",
+        "version" : "4.1.3"
       }
     },
     {

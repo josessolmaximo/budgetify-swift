@@ -18,6 +18,7 @@ import FirebaseAuth
 import FirebaseCore
 
 import RevenueCat
+import Mixpanel
 
 @MainActor
 class LoginViewModel: ObservableObject {
@@ -125,6 +126,13 @@ class LoginViewModel: ObservableObject {
         
         Purchases.shared.attribution.setEmail(user.email)
         Purchases.shared.attribution.setDisplayName(user.displayName)
+        
+        Mixpanel.mainInstance().identify(distinctId: user.uid)
+        Mixpanel.mainInstance().people.set(properties: [
+            "$name": user.displayName ?? "",
+            "$email": user.email ?? "",
+            "$avatar": user.photoURL?.absoluteString ?? "",
+        ])
     }
     
     func randomNonceString(length: Int = 32) -> String {

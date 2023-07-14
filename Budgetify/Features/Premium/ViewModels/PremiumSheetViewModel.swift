@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RevenueCat
+import Mixpanel
 
 @MainActor
 class PremiumSheetViewModel: ObservableObject {
@@ -53,23 +54,27 @@ class PremiumSheetViewModel: ObservableObject {
         }
     }
     
-    func purchase() async {
-        guard selected != nil else {
-            return
-        }
+    func purchase(lastScreen: String) async {
+        guard let selected = selected else { return }
         
         loading = true
         
         ErrorManager.shared.logRequest(vm: self)
         
         do {
-            let result = try await Purchases.shared.purchase(package: selected!)
+            let result = try await Purchases.shared.purchase(package: selected)
 
             if result.customerInfo.entitlements["premium"]?.isActive ?? false, !result.userCancelled {
                 PremiumManager.shared.isPremium = true
             }
 
             self.shouldSheetDismiss = true
+            
+            Mixpanel.mainInstance().track(event: "Purchase", properties: [
+                "productId": selected.storeProduct.productIdentifier,
+                "paywallConfig": ConfigManager.shared.paywallLimits,
+                "lastScreen": lastScreen
+            ])
         } catch {
             if let error = error as? RevenueCat.ErrorCode {
                 self.error = error

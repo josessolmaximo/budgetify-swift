@@ -9,6 +9,7 @@ import SwiftUI
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFunctions
+import Mixpanel
 
 protocol LoginServiceProtocol {
     func signOut() async throws
@@ -27,6 +28,8 @@ class LoginService: LoginServiceProtocol {
     func signOut() async throws {
         do {
             try Auth.auth().signOut()
+            
+            Mixpanel.mainInstance().reset()
         } catch {
             throw error.firestoreError
         }

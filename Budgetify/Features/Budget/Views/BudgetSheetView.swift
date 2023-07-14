@@ -270,7 +270,7 @@ struct BudgetSheetView: View {
         .errorAlert(error: $em.serviceError)
         .errorAlert(error: $em.validationError)
         .sheet(isPresented: $em.premiumError, content: {
-            PremiumSheetView()
+            PremiumSheetView(lastScreen: self.pageTitle)
         })
     }
 }

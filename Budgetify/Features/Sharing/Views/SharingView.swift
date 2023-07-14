@@ -127,7 +127,7 @@ struct SharingView: View {
                 .redacted(reason: vm.sharingLoading || vm.invitesLoading ? .placeholder : [])
             }
             .sheet(isPresented: $em.premiumError, content: {
-                PremiumSheetView()
+                PremiumSheetView(lastScreen: self.pageTitle)
             })
             .refreshable {
                 Task {

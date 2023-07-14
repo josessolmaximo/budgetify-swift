@@ -22,9 +22,6 @@ struct ExpressionTextView: UIViewRepresentable {
         nf.minimumFractionDigits = 0
         nf.maximumFractionDigits = 10
         
-        nf.groupingSeparator = "."
-        nf.decimalSeparator = ","
-        
         return nf
     }
     
@@ -144,7 +141,7 @@ struct ExpressionTextView: UIViewRepresentable {
     }
     
     class Coordinator: NSObject, UITextFieldDelegate {
-        var parent: ExpressionTextView?
+        var parent: ExpressionTextView
         weak var textField: UITextField?
         
         init(_ parent: ExpressionTextView) {
@@ -166,14 +163,18 @@ struct ExpressionTextView: UIViewRepresentable {
         @objc func textFieldDidChange(_ textField: UITextField) {
             guard let expressionText = textField.text else { return }
             
+            let formattedText = expressionText
+                .replacingOccurrences(of: parent.numberFormatter.groupingSeparator!, with: "")
+                .replacingOccurrences(of: parent.numberFormatter.decimalSeparator!, with: ".")
+            
             do {
-                let expression = Expression(expressionText)
+                let expression = Expression(formattedText)
                 
                 let expressionAmount = try expression.evaluate()
                 
-                parent?.amount = Decimal(expressionAmount)
+                parent.amount = Decimal(expressionAmount)
             } catch {
-                parent?.amount = nil
+                parent.amount = nil
             }
         }
         
@@ -181,27 +182,27 @@ struct ExpressionTextView: UIViewRepresentable {
             guard let expressionText = textField.text else { return }
             
             let formattedText = expressionText
-                .replacingOccurrences(of: ".", with: "")
-                .replacingOccurrences(of: ",", with: ".")
+                .replacingOccurrences(of: parent.numberFormatter.groupingSeparator!, with: "")
+                .replacingOccurrences(of: parent.numberFormatter.decimalSeparator!, with: ".")
             
             do {
                 let expression = Expression(formattedText)
                 
                 let expressionAmount = try expression.evaluate()
                 
-                let stringValue = parent?.numberFormatter.string(from: NSNumber(value: expressionAmount)) ?? ""
+                let stringValue = parent.numberFormatter.string(from: NSNumber(value: expressionAmount)) ?? ""
                 
                 if expressionAmount.isFinite {
                     textField.text = "\(stringValue)"
-                    parent?.amount = Decimal(expressionAmount)
+                    parent.amount = Decimal(expressionAmount)
                 } else {
                     textField.text = ""
-                    parent?.amount = nil
+                    parent.amount = nil
                 }
                 
             } catch {
                 textField.text = ""
-                parent?.amount = nil
+                parent.amount = nil
             }
         }
         

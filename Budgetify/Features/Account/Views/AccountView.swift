@@ -63,7 +63,7 @@ struct AccountView: View {
         .modifier(CustomBackButtonModifier(dismiss: dismiss))
         .analyticsScreen(name: self.pageTitle, class: self.pageTitle)
         .sheet(isPresented: $em.premiumError) {
-            PremiumSheetView()
+            PremiumSheetView(lastScreen: self.pageTitle)
         }
     }
 }
